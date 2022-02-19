@@ -15,3 +15,7 @@ export interface IuseForm {
   initialState: IformObject;
   onSubmit: () => void;
 }
+
+export interface IStyleProps {
+  fontColor?: string;
+}

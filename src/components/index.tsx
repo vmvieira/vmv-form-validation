@@ -1,2 +1,2 @@
-export * from "./StyledButton";
-export * from "./StyledInput";
+export * from "./Button";
+export * from "./Input";

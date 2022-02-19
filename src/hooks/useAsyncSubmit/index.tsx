@@ -1,6 +1,6 @@
 import React from "react";
 
-export const useAsync = (asyncFunction: any) => {
+export const useAsyncSubmit = (asyncFunction: any) => {
   const [status, setStatus] = React.useState("idle");
   const [apiResponse, setApiResponse] = React.useState(null);
   const [apiError, setApiError] = React.useState(null);
