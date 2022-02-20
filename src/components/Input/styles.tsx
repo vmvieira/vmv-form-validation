@@ -33,8 +33,8 @@ export const FieldMessage = styled.p<IStyleProps>`
   margin-bottom: 0.75rem;
   font-weight: 700;
 
-  ${({ isValid }) =>
-    isValid &&
+  ${({ isSuccess }) =>
+    isSuccess &&
     css`
       color: #4ade80;
     `}

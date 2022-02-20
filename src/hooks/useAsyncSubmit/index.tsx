@@ -14,7 +14,7 @@ export const useAsyncSubmit = (formObj: IformObject) => {
         setStatus("pending");
 
         const response = await fetch(
-          "https://61e036950f3bdb0017934eb0.mockapi.io/api/valid-passwords/results",
+          "https://61e036950f3bdb0017934eb0.mockapi.io/api/valid-passwords/resultss",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -24,12 +24,14 @@ export const useAsyncSubmit = (formObj: IformObject) => {
 
         if (response.ok) {
           setStatus("success");
-          setApiResponse("Information sent successfully!");
+          setApiResponse("Information sent!");
+        } else {
+          throw new Error("Something went wrong");
         }
       } catch (err) {
         console.warn(err);
         setStatus("error");
-        setApiError("Failed to send your information. Please try again");
+        setApiError("Failed to send your information!");
       }
     },
     [formObj]

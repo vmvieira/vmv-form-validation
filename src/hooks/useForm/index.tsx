@@ -11,66 +11,78 @@ export const useForm = (initialState: IformObject) => {
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({
-      ...prev,
-      [event.target.name]: event.target.value,
-    }));
+    try {
+      setFormData((prev) => ({
+        ...prev,
+        [event.target.name]: event.target.value,
+      }));
+    } catch (err) {
+      console.warn(err);
+    }
   };
 
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+    try {
+      const { name, value } = event.target;
 
-    switch (name) {
-      case "name":
-        const nameValidation = validateName(value);
+      switch (name) {
+        case "name":
+          const nameValidation = validateName(value);
 
-        setFormErrors((prev) => ({
-          ...prev,
-          [name]: {
-            ...prev[name],
-            hasError: nameValidation.hasError,
-            errorMsgs: nameValidation.errorMsgs,
-          },
-        }));
+          setFormErrors((prev) => ({
+            ...prev,
+            [name]: {
+              ...prev[name],
+              hasError: nameValidation.hasError,
+              errorMsgs: nameValidation.errorMsgs,
+            },
+          }));
 
-        break;
+          break;
 
-      case "email":
-        const emailValidation = validateEmail(value);
+        case "email":
+          const emailValidation = validateEmail(value);
 
-        setFormErrors((prev) => ({
-          ...prev,
-          [name]: {
-            ...prev[name],
-            hasError: emailValidation.hasError,
-            errorMsgs: emailValidation.errorMsgs,
-          },
-        }));
-        break;
+          setFormErrors((prev) => ({
+            ...prev,
+            [name]: {
+              ...prev[name],
+              hasError: emailValidation.hasError,
+              errorMsgs: emailValidation.errorMsgs,
+            },
+          }));
+          break;
 
-      case "password":
-        const passwordValidation = validatePassword(value);
+        case "password":
+          const passwordValidation = validatePassword(value);
 
-        setFormErrors((prev) => ({
-          ...prev,
-          [name]: {
-            ...prev[name],
-            hasError: passwordValidation.hasError,
-            errorMsgs: passwordValidation.errorMsgs,
-          },
-        }));
+          setFormErrors((prev) => ({
+            ...prev,
+            [name]: {
+              ...prev[name],
+              hasError: passwordValidation.hasError,
+              errorMsgs: passwordValidation.errorMsgs,
+            },
+          }));
 
-        break;
+          break;
 
-      default:
-        break;
+        default:
+          break;
+      }
+    } catch (err) {
+      console.warn(err);
     }
   };
 
   const isDisabled = React.useMemo(() => {
-    return Object.values(formErrors).some(
-      (eachObj) => eachObj.hasError === true
-    );
+    try {
+      return Object.values(formErrors).some(
+        (eachObj) => eachObj.hasError === true
+      );
+    } catch (err) {
+      console.warn(err);
+    }
   }, [formErrors]);
 
   return { formData, formErrors, handleInputChange, handleBlur, isDisabled };

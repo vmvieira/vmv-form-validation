@@ -25,7 +25,7 @@ export const Input = (props: IInputProps) => {
         ))}
 
       {!props.fieldErrors.hasError && (
-        <S.FieldMessage isValid>Looks good to me !</S.FieldMessage>
+        <S.FieldMessage isSuccess>Looks good to me !</S.FieldMessage>
       )}
     </S.InputContainer>
   );

@@ -1,19 +1,31 @@
-export const capitalizeFirstLetter = (str: string) =>
-  str.charAt(0).toUpperCase() + str.slice(1);
-
+export const capitalizeFirstLetter = (str: string) => {
+  try {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  } catch (err) {
+    console.warn(err);
+  }
+};
 const checkForAdjacentDuplicates = (value: string[]) => {
-  return value.some((currentValue, index, arr) => {
-    return currentValue === arr[index - 1];
-  });
+  try {
+    return value.some((currentValue, index, arr) => {
+      return currentValue === arr[index - 1];
+    });
+  } catch (err) {
+    console.warn(err);
+  }
 };
 
 const checkIfContiguous = (value: string[]) => {
-  return value.every((currentValue, index, arr) => {
-    if (index === 0) return true;
-    const currentNumber = parseInt(currentValue);
-    const previousNumber = parseInt(arr[index - 1]);
-    return currentNumber >= previousNumber;
-  });
+  try {
+    return value.every((currentValue, index, arr) => {
+      if (index === 0) return true;
+      const currentNumber = parseInt(currentValue);
+      const previousNumber = parseInt(arr[index - 1]);
+      return currentNumber >= previousNumber;
+    });
+  } catch (err) {
+    console.warn(err);
+  }
 };
 
 export const validateName = (fieldValue: string) => {

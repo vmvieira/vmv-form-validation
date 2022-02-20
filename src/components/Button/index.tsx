@@ -8,7 +8,7 @@ export const Button = (props: IButtonProps) => {
       onClick={props.handleClick}
       disabled={props.isDisabled}
     >
-      Submit !
+      {props.btnText}
     </S.StyledButton>
   );
 };

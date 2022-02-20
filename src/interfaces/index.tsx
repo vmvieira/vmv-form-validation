@@ -14,7 +14,7 @@ export interface IformErrors {
 
 export interface IStyleProps {
   isError?: boolean;
-  isValid?: boolean;
+  isSuccess?: boolean;
 }
 
 export interface IInputProps {
@@ -31,4 +31,5 @@ export interface IButtonProps {
     event: React.SyntheticEvent<HTMLButtonElement>
   ) => Promise<void>;
   isDisabled: boolean;
+  btnText: string;
 }

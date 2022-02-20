@@ -17,8 +17,18 @@ const App = () => {
     <>
       <S.GlobalStyle />
       <S.MainWrapper>
-        <S.FancyHeadline>Hello, world !</S.FancyHeadline>
-
+        <S.BasicWrapper>
+          <S.FancyHeadline>Hello, world !</S.FancyHeadline>
+          {status === "pending" && <S.LoadingSpinner />}
+          {(status === "error" || status === "success") && (
+            <S.FancyHeadline
+              isError={status === "error"}
+              isSuccess={status === "success"}
+            >
+              {apiResponse || apiError}
+            </S.FancyHeadline>
+          )}
+        </S.BasicWrapper>
         <S.MainForm>
           <S.SpaceBetweenContainer>
             <S.BasicWrapper>
@@ -50,6 +60,7 @@ const App = () => {
             <Button
               handleClick={asyncSubmitCallback}
               isDisabled={isDisabled || status === "pending"}
+              btnText={status === "pending" ? "Loading..." : "Submit!"}
             />
           </S.SpaceBetweenContainer>
         </S.MainForm>
