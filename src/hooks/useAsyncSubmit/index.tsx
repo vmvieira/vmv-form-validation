@@ -14,7 +14,7 @@ export const useAsyncSubmit = (formObj: IformObject) => {
         setStatus("pending");
 
         const response = await fetch(
-          "https://61e036950f3bdb0017934eb0.mockapi.io/api/valid-passwords/resultss",
+          "https://61e036950f3bdb0017934eb0.mockapi.io/api/valid-passwords/results",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
