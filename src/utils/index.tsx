@@ -2,10 +2,11 @@ export const capitalizeFirstLetter = (str: string) => {
   try {
     return str.charAt(0).toUpperCase() + str.slice(1);
   } catch (err) {
-    console.warn(err);
+    throw new Error("ops, something went wrong");
   }
 };
-const checkForAdjacentDuplicates = (value: string[]) => {
+
+export const checkForAdjacentDuplicates = (value: string[]) => {
   try {
     return value.some((currentValue, index, arr) => {
       return currentValue === arr[index - 1];
@@ -15,7 +16,7 @@ const checkForAdjacentDuplicates = (value: string[]) => {
   }
 };
 
-const checkIfContiguous = (value: string[]) => {
+export const checkIfContiguous = (value: string[]) => {
   try {
     return value.every((currentValue, index, arr) => {
       if (index === 0) return true;
