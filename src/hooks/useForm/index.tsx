@@ -1,42 +1,65 @@
 import React from "react";
 import { validateEmail, validatePassword, validateName } from "../../utils";
+import { IformObject, IformErrors } from "../../interfaces";
 
-export const useForm = (initialState: any, onSubmit: any) => {
+export const useForm = (initialState: IformObject) => {
   const [formData, setFormData] = React.useState(initialState);
+  const [formErrors, setFormErrors] = React.useState<IformErrors>({
+    name: { hasError: true, errorMsgs: [] },
+    email: { hasError: true, errorMsgs: [] },
+    password: { hasError: true, errorMsgs: [] },
+  });
 
-  const handleInputChange = (event: any) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
-  };
-
-  const handleSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    onSubmit?.(JSON.stringify(formData, null, 2));
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prev) => ({
+      ...prev,
+      [event.target.name]: event.target.value,
+    }));
   };
 
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    console.log("event name", name);
-    console.log("event value", value);
-
     switch (name) {
       case "name":
         const nameValidation = validateName(value);
 
-        console.log("hasError", nameValidation.hasError);
-        console.log("errorMsg", nameValidation.errorMsg);
+        setFormErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            hasError: nameValidation.hasError,
+            errorMsgs: nameValidation.errorMsgs,
+          },
+        }));
 
         break;
 
       case "email":
         const emailValidation = validateEmail(value);
 
-        console.log("hasError", emailValidation.hasError);
-        console.log("errorMsg", emailValidation.errorMsg);
+        setFormErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            hasError: emailValidation.hasError,
+            errorMsgs: emailValidation.errorMsgs,
+          },
+        }));
         break;
 
       case "password":
-        console.log("value", value);
+        const passwordValidation = validatePassword(value);
+
+        setFormErrors((prev) => ({
+          ...prev,
+          [name]: {
+            ...prev[name],
+            hasError: passwordValidation.hasError,
+            errorMsgs: passwordValidation.errorMsgs,
+          },
+        }));
+
         break;
 
       default:
@@ -44,5 +67,11 @@ export const useForm = (initialState: any, onSubmit: any) => {
     }
   };
 
-  return { formData, handleInputChange, handleSubmit, handleBlur };
+  const isDisabled = React.useMemo(() => {
+    return Object.values(formErrors).some(
+      (eachObj) => eachObj.hasError === true
+    );
+  }, [formErrors]);
+
+  return { formData, formErrors, handleInputChange, handleBlur, isDisabled };
 };

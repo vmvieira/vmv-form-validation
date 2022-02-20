@@ -1,21 +1,34 @@
+import React from "react";
+
 export interface IformObject {
   name: string;
   email: string;
-  password: number;
+  password: string;
 }
 
-export interface IuseAsyncSubmit {
-  asyncSubmit: () => Promise<void>;
-  status: "idle" | "pending" | "success" | "error";
-  apiResponse: any | null;
-  apiError: any | null;
-}
-
-export interface IuseForm {
-  initialState: IformObject;
-  onSubmit: () => void;
+export interface IformErrors {
+  name: { hasError: boolean; errorMsgs: string[] };
+  email: { hasError: boolean; errorMsgs: string[] };
+  password: { hasError: boolean; errorMsgs: string[] };
 }
 
 export interface IStyleProps {
-  fontColor?: string;
+  isError?: boolean;
+  isValid?: boolean;
+}
+
+export interface IInputProps {
+  fieldName: string;
+  fieldValue: string;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
+  fieldErrors: { hasError: boolean; errorMsgs: string[] };
+  isDisabled: boolean;
+}
+
+export interface IButtonProps {
+  handleClick: (
+    event: React.SyntheticEvent<HTMLButtonElement>
+  ) => Promise<void>;
+  isDisabled: boolean;
 }

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { IStyleProps } from "../../interfaces";
 
 export const InputContainer = styled.div`
@@ -30,5 +30,18 @@ export const LabelText = styled.label`
 
 export const FieldMessage = styled.p<IStyleProps>`
   font-size: 1rem;
-  color: ${({ fontColor }) => fontColor || "white"};
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+
+  ${({ isValid }) =>
+    isValid &&
+    css`
+      color: #4ade80;
+    `}
+
+  ${({ isError }) =>
+    isError &&
+    css`
+      color: #ef4444;
+    `}
 `;

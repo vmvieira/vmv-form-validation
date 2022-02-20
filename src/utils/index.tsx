@@ -1,21 +1,39 @@
+export const capitalizeFirstLetter = (str: string) =>
+  str.charAt(0).toUpperCase() + str.slice(1);
+
+const checkForAdjacentDuplicates = (value: string[]) => {
+  return value.some((currentValue, index, arr) => {
+    return currentValue === arr[index - 1];
+  });
+};
+
+const checkIfContiguous = (value: string[]) => {
+  return value.every((currentValue, index, arr) => {
+    if (index === 0) return true;
+    const currentNumber = parseInt(currentValue);
+    const previousNumber = parseInt(arr[index - 1]);
+    return currentNumber >= previousNumber;
+  });
+};
+
 export const validateName = (fieldValue: string) => {
-  let hasError, errorMsg;
+  let hasError,
+    errorMsgs: string[] = [];
 
   hasError = false;
-  errorMsg = "Nice name!";
 
   if (fieldValue.length === 0) {
     hasError = true;
-    errorMsg = "Name is required.";
+    errorMsgs.push("Name is required.");
   }
-  return { hasError, errorMsg };
+  return { hasError, errorMsgs };
 };
 
 export const validateEmail = (fieldValue: string) => {
-  let hasError, errorMsg;
+  let hasError,
+    errorMsgs: string[] = [];
 
   hasError = false;
-  errorMsg = "Looks good to me!";
 
   const isValid = String(fieldValue)
     .toLowerCase()
@@ -25,10 +43,40 @@ export const validateEmail = (fieldValue: string) => {
 
   if (!isValid) {
     hasError = true;
-    errorMsg = "Invalid e-mail.";
+    errorMsgs.push("Invalid e-mail.");
   }
 
-  return { hasError, errorMsg };
+  return { hasError, errorMsgs };
 };
 
-export const validatePassword = (fieldValue: string) => {};
+export const validatePassword = (fieldValue: string) => {
+  let hasError,
+    errorMsgs: string[] = [];
+
+  const numberValue = parseInt(fieldValue);
+  const arrFromStr = fieldValue.split("");
+
+  hasError = false;
+
+  if (fieldValue.length !== 6) {
+    hasError = true;
+    errorMsgs.push("Password must have six digits.");
+  }
+
+  if (fieldValue.length !== 6 || numberValue < 184759 || numberValue > 856920) {
+    hasError = true;
+    errorMsgs.push("Password must be between 184759 and 856920.");
+  }
+
+  if (arrFromStr.length === 0 || !checkForAdjacentDuplicates(arrFromStr)) {
+    hasError = true;
+    errorMsgs.push("Password must have two equal adjacent elements.");
+  }
+
+  if (arrFromStr.length === 0 || !checkIfContiguous(arrFromStr)) {
+    hasError = true;
+    errorMsgs.push("Password's numbers must be contiguous from left to right.");
+  }
+
+  return { hasError, errorMsgs };
+};

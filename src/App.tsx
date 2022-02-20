@@ -3,14 +3,16 @@ import { useForm, useAsyncSubmit } from "./hooks";
 import * as S from "./styles";
 
 const App = () => {
-  const { formData, handleInputChange, handleSubmit, handleBlur } = useForm(
-    {
+  const { formData, formErrors, handleInputChange, handleBlur, isDisabled } =
+    useForm({
       name: "",
       email: "",
       password: "",
-    },
-    alert
-  );
+    });
+
+  const { asyncSubmitCallback, status, apiResponse, apiError } =
+    useAsyncSubmit(formData);
+
   return (
     <>
       <S.GlobalStyle />
@@ -25,24 +27,30 @@ const App = () => {
                 fieldValue={formData.name}
                 handleChange={handleInputChange}
                 handleBlur={handleBlur}
-                fieldMessage={"Alguma mensagem informativa aqui"}
+                fieldErrors={formErrors.name}
+                isDisabled={status === "pending"}
               />
               <Input
                 fieldName={"email"}
                 fieldValue={formData.email}
                 handleChange={handleInputChange}
                 handleBlur={handleBlur}
-                fieldMessage={"Alguma mensagem informativa aqui"}
+                fieldErrors={formErrors.email}
+                isDisabled={status === "pending"}
               />
               <Input
                 fieldName={"password"}
                 fieldValue={formData.password}
                 handleChange={handleInputChange}
                 handleBlur={handleBlur}
-                fieldMessage={"Alguma mensagem informativa aqui"}
+                fieldErrors={formErrors.password}
+                isDisabled={status === "pending"}
               />
             </S.BasicWrapper>
-            <Button handleClick={handleSubmit} />
+            <Button
+              handleClick={asyncSubmitCallback}
+              isDisabled={isDisabled || status === "pending"}
+            />
           </S.SpaceBetweenContainer>
         </S.MainForm>
       </S.MainWrapper>

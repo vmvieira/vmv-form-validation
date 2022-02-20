@@ -1,24 +1,39 @@
 import React from "react";
+import { IformObject } from "../../interfaces";
 
-export const useAsyncSubmit = (asyncFunction: any) => {
-  const [status, setStatus] = React.useState("idle");
-  const [apiResponse, setApiResponse] = React.useState(null);
-  const [apiError, setApiError] = React.useState(null);
+export const useAsyncSubmit = (formObj: IformObject) => {
+  const [status, setStatus] = React.useState<string>("idle");
+  const [apiResponse, setApiResponse] = React.useState<string | null>(null);
+  const [apiError, setApiError] = React.useState<string | null>(null);
 
-  const asyncSubmit = React.useCallback(() => {
-    setStatus("pending");
-    setApiResponse(null);
-    setApiError(null);
-    return asyncFunction()
-      .then((response: any) => {
-        setApiResponse(response);
-        setStatus("success");
-      })
-      .catch((err: any) => {
-        setApiError(err);
+  const asyncSubmitCallback = React.useCallback(
+    async (e: React.SyntheticEvent<HTMLButtonElement>) => {
+      try {
+        e.preventDefault();
+
+        setStatus("pending");
+
+        const response = await fetch(
+          "https://61e036950f3bdb0017934eb0.mockapi.io/api/valid-passwords/results",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formObj),
+          }
+        );
+
+        if (response.ok) {
+          setStatus("success");
+          setApiResponse("Information sent successfully!");
+        }
+      } catch (err) {
+        console.warn(err);
         setStatus("error");
-      });
-  }, [asyncFunction]);
+        setApiError("Failed to send your information. Please try again");
+      }
+    },
+    [formObj]
+  );
 
-  return { asyncSubmit, status, apiResponse, apiError };
+  return { asyncSubmitCallback, status, apiResponse, apiError };
 };
